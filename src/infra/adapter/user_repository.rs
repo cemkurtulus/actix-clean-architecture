@@ -14,21 +14,6 @@ pub struct UserRepository {
 
 #[async_trait]
 impl UserRepositoryPort for UserRepository {
-    async fn init() -> Self {
-        dotenv().ok();
-        // let ck = env::var("MONGOURI").unwrap();
-        let uri = match env::var("MONGOURI") {
-            Ok(value) => value.to_string(),
-            Err(_) => format!("Error loading env variable"),
-        };
-
-        let client = Client::with_uri_str(uri).await.unwrap();
-        let db = client.database("ck");
-        let collection: Collection<UserEntity> = db.collection("user");
-
-        UserRepository { collection }
-    }
-
     async fn create_user(&self, user_input_dto: UserInputDto) -> Result<InsertOneResult, Error> {
         let doc = UserEntity {
             id: None,
@@ -43,5 +28,22 @@ impl UserRepositoryPort for UserRepository {
             .expect("An Error is occurred while create user");
 
         Ok(user)
+    }
+}
+
+impl UserRepository {
+    pub async fn new() -> UserRepository {
+        dotenv().ok();
+        // let ck = env::var("MONGOURI").unwrap();
+        let uri = match env::var("MONGOURI") {
+            Ok(value) => value.to_string(),
+            Err(_) => format!("Error loading env variable"),
+        };
+
+        let client = Client::with_uri_str(uri).await.unwrap();
+        let db = client.database("ck");
+        let collection: Collection<UserEntity> = db.collection("user");
+
+        UserRepository { collection }
     }
 }
