@@ -16,7 +16,6 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data_factory(state_factory)
             .wrap(Logger::default())
-            // .wrap(Logger::new("%a %{User-Agent}i"))
             .service(
                 web::resource("/user")
                     .name("user_controller")
