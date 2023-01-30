@@ -17,11 +17,12 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(Logger::default())
+            // .data_factory(user_service_resolver)
             // .wrap(Logger::new("%a %{User-Agent}i"))
             .service(
                 web::resource("/user")
                     .name("user_controller")
-                    .app_data(user_service_data)
+                    // .app_data(user_service_data)
                     .guard(guard::Header("content-type", "application/json"))
                     .route(web::post().to(create_user))
                     .route(web::get().to(get_user)),

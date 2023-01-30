@@ -15,7 +15,7 @@ pub async fn user_service_resolver() -> UserService {
     };
 
     let user_service = UserService {
-        user_repository: Arc::new(&user_repository),
+        user_repository: user_repository,
     };
     user_service
 }
