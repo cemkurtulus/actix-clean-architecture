@@ -4,7 +4,5 @@ use mongodb::{bson::extjson::de::Error, results::InsertOneResult};
 
 #[async_trait]
 pub trait UserRepositoryPort {
-    async fn init() -> Self;
-
     async fn create_user(&self, user_input_dto: UserInputDto) -> Result<InsertOneResult, Error>;
 }
