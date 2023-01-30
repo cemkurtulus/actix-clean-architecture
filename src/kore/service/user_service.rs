@@ -2,23 +2,17 @@
 
 // use crate::kore::ports::user_repository_port::UserRepositoryPort;
 
-use crate::infra::adapter::user_repository::UserRepository;
+use crate::kore::ports::user_repository_port::UserRepositoryPort;
 
 use super::super::models::user_input_dto::UserInputDto;
 use super::super::models::user_output_dto::UserOutputDto;
 use mongodb::bson::extjson::de::Error;
 
 pub struct UserService {
-    pub user_repository: UserRepository,
+    pub user_repository: Box<dyn UserRepositoryPort>,
 }
 
 impl UserService {
-    // pub async fn new() -> Self {
-    //     UserService {
-    //         user_repository: UserRepository::new().await,
-    //     }
-    // }
-
     pub async fn create_user(&self, user_input_dto: UserInputDto) -> Result<UserOutputDto, Error> {
         let result_user = self.user_repository.create_user(user_input_dto).await;
 
@@ -28,5 +22,11 @@ impl UserService {
             }),
             Err(error) => panic!("Problem opening the file: {:?}", error),
         }
+    }
+}
+
+impl UserService {
+    pub fn new(user_repository: Box<dyn UserRepositoryPort>) -> UserService {
+        UserService { user_repository }
     }
 }
