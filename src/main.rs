@@ -22,7 +22,7 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::resource("/user")
                     .name("user_controller")
-                    // .app_data(user_service_data)
+                    .app_data(user_service_data.clone())
                     .guard(guard::Header("content-type", "application/json"))
                     .route(web::post().to(create_user))
                     .route(web::get().to(get_user)),
