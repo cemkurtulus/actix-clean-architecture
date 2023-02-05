@@ -1,6 +1,6 @@
 use serde::Serialize;
 
 #[derive(Serialize)]
-pub struct UserOutputModel {
+pub struct CreateUserOutputModel {
     pub id: String,
 }
