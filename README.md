@@ -54,6 +54,21 @@ Run command
 cargo run
 ```
 
+Add User Request
+```
+curl --location --request POST 'http://localhost:8080/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Cem",
+    "surname": "Kurtulus"
+}'
+```
+
+Get User Request
+```
+curl --location --request GET 'http://localhost:8080/user/63e00caf27cd9de8246778a0'
+```
+
 ## ✍️ Authors <a name = "authors"></a>
 
 - [@cemkurtulus](https://github.com/cemkurtulus) - Idea & Initial work
